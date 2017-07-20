@@ -1,0 +1,29 @@
+version: '2'
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./_mysql:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: test
+
+  app:
+    build:
+      context: .
+    volumes:
+      - .:/usr/src/app
+    links:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 3306
+      DATABASE_USER: test
+      DATABASE_PASSWORD: test
+      DATABASE_NAME: test
+    ports:
+      - "2301:2300"
